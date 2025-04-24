@@ -4,6 +4,12 @@ import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
+// ✅ Dynamic base URL setup
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "" // Relative path in production (Render)
+    : "http://localhost:4000"; // Full URL in development
+
 const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
@@ -16,26 +22,27 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await axios
-        .post(
-          "/api/v1/user/login",
-          { email, password, confirmPassword, role: "Patient" },
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          console.log("ddd==",isAuthenticated)
-          navigateTo("/");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
-        });
+      const res = await axios.post(
+        `${API_BASE_URL}/api/v1/user/login`,
+        { email, password, confirmPassword, role: "Patient" },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      toast.success(res.data.message);
+      setIsAuthenticated(true);
+      navigateTo("/");
+
+      // Reset form
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     } catch (error) {
-      toast.error(error.response.data.message);
+      const message =
+        error.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message);
     }
   };
 
@@ -49,7 +56,8 @@ const Login = () => {
         <h2>Sign In</h2>
         <p>Please Login To Continue</p>
         <p>
-         "Welcome to D-care Hospital! Access your personalized health dashboard with secure login anytime."
+          "Welcome to D-care Hospital! Access your personalized health dashboard
+          with secure login anytime."
         </p>
         <form onSubmit={handleLogin}>
           <input
