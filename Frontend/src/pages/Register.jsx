@@ -4,6 +4,12 @@ import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
+// ✅ Dynamic API base URL
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "" // use relative path in production (Render)
+    : "http://localhost:4000"; // use localhost in development
+
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
@@ -21,30 +27,43 @@ const Register = () => {
   const handleRegistration = async (e) => {
     e.preventDefault();
     try {
-      await axios
-        .post(
-          "/api/v1/user/patient/register",
-          { firstName, lastName, email, phone, aadhar, dob, gender, password,role:"Patient" },
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setFirstName("");
-          setLastName("");
-          setEmail("");
-          setPhone("");
-          setAadhar("");
-          setDob("");
-          setGender("");
-          setPassword("");
-        });
+      const res = await axios.post(
+        `${API_BASE_URL}/api/v1/user/patient/register`,
+        {
+          firstName,
+          lastName,
+          email,
+          phone,
+          aadhar,
+          dob,
+          gender,
+          password,
+          role: "Patient",
+        },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      toast.success(res.data.message);
+      setIsAuthenticated(true);
+      navigateTo("/");
+
+      // Reset form
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+      setAadhar("");
+      setDob("");
+      setGender("");
+      setPassword("");
     } catch (error) {
-      toast.error(error.response.data.message);
+      const message =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
+      toast.error(message);
     }
   };
 
@@ -58,7 +77,8 @@ const Register = () => {
         <h2>Sign Up</h2>
         <p>Please Sign Up To Continue</p>
         <p>
-        "Join D-care Hospital today! Create your account for easy access to appointments and personalized care."
+          "Join D-care Hospital today! Create your account for easy access to
+          appointments and personalized care."
         </p>
         <form onSubmit={handleRegistration}>
           <div>
@@ -97,14 +117,17 @@ const Register = () => {
               onChange={(e) => setAadhar(e.target.value)}
             />
             <input
-              type={"date"}
+              type="date"
               placeholder="Date of Birth"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
             />
           </div>
           <div>
-            <select value={gender} onChange={(e) => setGender(e.target.value)}>
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
