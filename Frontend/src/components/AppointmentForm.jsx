@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 
 // ✅ Dynamic API base URL
 const API_BASE_URL =
-  process.env.NODE_ENV === "production"
+  import.meta.env.MODE === "production"
     ? ""
     : "http://localhost:4000";
+
 
 const AppointmentForm = () => {
   const [firstName, setFirstName] = useState("");
