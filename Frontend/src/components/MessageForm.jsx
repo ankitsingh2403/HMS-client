@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 
 // ✅ Dynamic base URL depending on environment
 const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "" // Relative path on production
-    : "http://localhost:4000"; // Full path on local dev
+  import.meta.env.MODE === "production"
+    ? ""
+    : "http://localhost:4000";
 
 const MessageForm = () => {
   const [firstName, setFirstName] = useState("");
