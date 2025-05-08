@@ -7,9 +7,9 @@ import { Context } from "../main";
 
 // ✅ Dynamic base URL depending on environment
 const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "" // Relative path for production
-    : "http://localhost:4000"; // Full URL for local development
+  import.meta.env.MODE === "production"
+    ? ""
+    : "http://localhost:4000";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
