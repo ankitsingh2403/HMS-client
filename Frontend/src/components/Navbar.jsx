@@ -5,8 +5,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 
-// ✅ Dynamic base URL setup
-const API_BASE_URL = import.meta.env.VITE_API_URL || ""; // Uses VITE_API_URL from environment variable
+const API_BASE_URL =
+  import.meta.env.MODE === "production" ? "" : "http://localhost:4000";
+
 
 
 const Navbar = () => {
