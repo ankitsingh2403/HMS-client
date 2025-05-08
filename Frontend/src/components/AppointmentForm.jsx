@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 // ✅ Use this everywhere in frontend where you make API calls
-const API_BASE_URL = "'https://hms-client.onrender.com'";
+const API_BASE_URL = "https://hms-client.onrender.com";
 
 
 
