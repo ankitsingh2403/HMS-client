@@ -5,8 +5,9 @@ import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 
-// ✅ Dynamic base URL setup
-const API_BASE_URL = import.meta.env.VITE_API_URL || ""; // Uses VITE_API_URL from environment variable
+const API_BASE_URL =
+  import.meta.env.MODE === "production" ? "" : "http://localhost:4000";
+
 
 // Full URL in development
 
