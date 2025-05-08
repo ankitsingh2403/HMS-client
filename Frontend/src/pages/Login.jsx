@@ -5,8 +5,9 @@ import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 
-const API_BASE_URL =
-  import.meta.env.MODE === "production" ? "" : "http://localhost:4000";
+// ✅ Use this everywhere in frontend where you make API calls
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
+
 
 
 // Full URL in development
