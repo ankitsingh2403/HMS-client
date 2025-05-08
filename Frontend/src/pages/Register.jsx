@@ -6,9 +6,10 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 // ✅ Dynamic API base URL
 const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "" // use relative path in production (Render)
-    : "http://localhost:4000"; // use localhost in development
+  import.meta.env.MODE === "production"
+    ? ""
+    : "http://localhost:4000";
+ // use localhost in development
 
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
