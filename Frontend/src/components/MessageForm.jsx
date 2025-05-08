@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 // ✅ Use this everywhere in frontend where you make API calls
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL = 'https://hms-client.onrender.com';
 
 
 

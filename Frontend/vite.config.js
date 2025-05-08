@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy: {
       '/': {
-        target: 'http://localhost:4000',
+        target: 'https://hms-client.onrender.com',
         changeOrigin: true,
       },
     },
